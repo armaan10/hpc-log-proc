@@ -1,9 +1,8 @@
-# hpc-job-profiler
+# hpc-log-proc
 
 A high-throughput data processing pipeline for HPC job telemetry. Streams CPU and GPU time-series logs directly from Amazon S3, computes per-job resource utilisation summaries and Resource Imbalance metrics, and writes a compressed output dataset — one row per job — suitable for downstream analysis.
 
-Built for the [MIT Supercloud Dataset](https://supercloud.mit.edu/), but designed to be adaptable to any HPC workload with compatible CPU/GPU telemetry logs.
-
+Built for the [MIT Supercloud Dataset](https://supercloud.mit.edu/), but future work will include modularizing the codebase to be adaptable to other datasets.
 ---
 
 ## Features
@@ -14,14 +13,14 @@ Built for the [MIT Supercloud Dataset](https://supercloud.mit.edu/), but designe
 - **Crash-safe checkpointing** — strict save-then-commit ordering ensures no data loss or duplicate rows on resume; failed jobs are retried automatically
 - **Resource Imbalance metrics** — temporal and spatial RI computed from raw time-series per job, for both GPU and CPU resources
 - **Principled aggregation** — all distribution stats (mean, std, skew, kurtosis, IoF, percentiles) computed per-GPU/per-node first, then averaged, isolating temporal variability from spatial variance
-- **Overview plots** — a companion script generates 10 publication-quality distribution plots for dataset overview
+- **Overview plots** — a companion script generates 10 distribution plots for dataset overview
 
 ---
 
 ## Repository structure
 
 ```
-hpc-job-profiler/
+hpc-log-proc/
 ├── pipeline.py          # Entry point — orchestration, CLI, chunked MapReduce loop
 ├── gpu_processing.py    # GPU log streaming, metric summarisation, aggregation
 ├── cpu_processing.py    # CPU log streaming, metric summarisation, aggregation
@@ -42,8 +41,8 @@ hpc-job-profiler/
 Python 3.10+ required.
 
 ```bash
-git clone https://github.com/your-username/hpc-job-profiler.git
-cd hpc-job-profiler
+git clone https://github.com/your-username/hpc-log-proc.git
+cd hpc-log-proc
 pip install -r requirements.txt
 ```
 
@@ -291,7 +290,7 @@ Physical totals (power, energy, VRAM consumption) are **summed** across GPUs rat
 
 ## Limitations
 
-- GPU timestamps are recorded in US/Eastern time and corrected to UTC at load time. Jobs crossing DST boundaries may have a 1-hour offset in time-to-first-use calculations.
+
 - CPU I/O columns (`ReadMB`, `WriteMB`) are treated as per-interval deltas. If the source data records cumulative counters, `read_kb_total` and `write_kb_total` will be incorrect.
 - Only the first CPU log file per job is processed. If multiple CPU files exist per job (unusual), additional nodes are not included in CPU summaries.
 - `gpu_idle_allocated_ratio` may exceed 1.0 if GPU log files contain more GPUs than `tres_alloc` reports, which can occur due to log file naming collisions between jobs.
@@ -313,6 +312,3 @@ If you use this pipeline in academic work, please cite the MIT Supercloud datase
 
 ---
 
-## License
-
-MIT
