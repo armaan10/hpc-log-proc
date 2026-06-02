@@ -2,7 +2,7 @@
 
 A high-throughput data processing pipeline for HPC job telemetry. Streams CPU and GPU time-series logs directly from Amazon S3, computes per-job resource utilisation summaries and Resource Imbalance metrics, and writes a compressed output dataset — one row per job — suitable for downstream analysis.
 
-Built for the [MIT Supercloud Dataset](https://supercloud.mit.edu/), but future work will include modularizing the codebase to be adaptable to other datasets.
+Built for the [MIT Supercloud Dataset](https://arxiv.org/abs/2108.02037), but future work will include modularizing the codebase to be adaptable to other datasets.
 ---
 
 ## Features
