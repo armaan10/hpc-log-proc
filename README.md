@@ -298,6 +298,17 @@ Physical totals (power, energy, VRAM consumption) are **summed** across GPUs rat
 ---
 
 ## Citation
+The methodology of using 1 row of aggergated data per job is inspired by:
+
+```
+@article{cornelius2025extracting,
+  title={Extracting Practical, Actionable Energy Insights from Supercomputer Telemetry and Logs},
+  author={Cornelius, Melanie and Cross, Greg and Shilpika, Shilpika and Dearing, Matthew T and Lan, Zhiling},
+  journal={arXiv preprint arXiv:2505.14796},
+  year={2025}
+}
+
+```
 
 If you use this pipeline in academic work, please cite the MIT Supercloud dataset:
 
